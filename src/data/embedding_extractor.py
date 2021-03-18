@@ -30,7 +30,7 @@ class EmbeddingExtractor:
 
     def __init__(self, model: nn.Module, device: str,
                  dataset: str, input_size: Tuple[int, int, int],
-                 batch_size: int, embedding_type: EmbeddingType = EmbeddingType.H):
+                 batch_size: int, *, embedding_type: EmbeddingType = EmbeddingType.H):
         """
         Args:
             model: model to compute embeddings
