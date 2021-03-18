@@ -9,7 +9,7 @@ import torchvision.transforms as transforms
 from torchvision import datasets
 
 from .gaussian_blur import GaussianBlur
-from .dataset_stats import DATASET_STATS
+from .datasets import DATASET_STATS
 from .cifar_20 import CIFAR20
 
 
