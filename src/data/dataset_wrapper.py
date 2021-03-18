@@ -6,11 +6,9 @@ import numpy as np
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.sampler import SubsetRandomSampler
 import torchvision.transforms as transforms
-from torchvision import datasets
 
 from .gaussian_blur import GaussianBlur
-from .datasets import DATASET_STATS
-from .cifar_20 import CIFAR20
+from .datasets import DATASET_STATS, SUPPORTED_DATASETS, get_dataset
 
 
 class SimCLRDataTransform:
@@ -26,15 +24,12 @@ class SimCLRDataTransform:
 class UnsupervisedDatasetWrapper:
     """Dataset wrapper for unsupervised image classification"""
 
-    DATASETS = ['stl10', 'cifar10', 'cifar20']
-
     def __init__(self,
                  batch_size: int,
                  valid_size: float,
                  input_size: Tuple[int, int, int],
                  dataset: str):
         """
-
         Args:
             batch_size: batch size to use in train and validation data loaders
 
@@ -51,8 +46,8 @@ class UnsupervisedDatasetWrapper:
         if valid_size < 0 or valid_size >= 1:
             raise ValueError('Incorrect `valid_size`. `valid_size` should be in range (0, 1)')
 
-        if dataset not in self.DATASETS:
-            raise ValueError(f'Incorrect `dataset`. Possible options: [{", ".join(self.DATASETS)}]')
+        if dataset not in SUPPORTED_DATASETS:
+            raise ValueError(f'Incorrect `dataset`. Possible options: [{", ".join(SUPPORTED_DATASETS)}]')
 
         if len(input_size) != 3:
             raise ValueError('Incorrect `input_size`. `input_size` should be tuple (H, W, C)')
@@ -65,22 +60,8 @@ class UnsupervisedDatasetWrapper:
     def get_data_loaders(self) -> Tuple[DataLoader, DataLoader]:
         data_augmentations = SimCLRDataTransform(self._get_augmentations())
 
-        if self._dataset == 'stl10':
-            train_dataset = datasets.STL10('./data', split='train+unlabeled',
-                                           download=True,
-                                           transform=data_augmentations)
-        elif self._dataset == 'cifar10':
-            train_dataset = datasets.CIFAR10('./data', train=True,
-                                             transform=data_augmentations,
-                                             download=True)
-        elif self._dataset == 'cifar20':
-            train_dataset = CIFAR20('./data/cifar-20', train=True,
-                                    transform=data_augmentations,
-                                    download=True)
-        else:
-            raise ValueError('Incorrect dataset')
-
-        train_loader, valid_loader = self._get_train_validation_data_loaders(train_dataset)
+        dataset = get_dataset(self._dataset, True, data_augmentations, True, True)
+        train_loader, valid_loader = self._get_train_validation_data_loaders(dataset)
         return train_loader, valid_loader
 
     def _get_train_validation_data_loaders(self, train_dataset: Dataset) -> Tuple[DataLoader, DataLoader]:

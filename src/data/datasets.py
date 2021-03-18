@@ -23,14 +23,25 @@ DATASET_STATS = {
     'stl10': IMAGENET_STATS
 }
 
+NUM_CLASSES = {
+    'cifar10': 10,
+    'cifar20': 20,
+    'stl10': 10
+}
 
-def get_dataset(dataset: str, train: bool, download: bool = False, unlabeled: bool = False) -> Dataset:
+
+def get_dataset(dataset: str, train: bool,
+                transform=None,
+                download: bool = False,
+                unlabeled: bool = False) -> Dataset:
     """Returns dataset
 
     Args:
         dataset: dataset name
 
         train: if True, then train split will be returned
+
+        transform: transform to apply to images
 
         download: if True, then dataset will be downloaded, if not downloaded
 
@@ -54,8 +65,8 @@ def get_dataset(dataset: str, train: bool, download: bool = False, unlabeled: bo
         else:
             split = 'test'
 
-        return datasets.STL10('./data', split=split, download=download)
+        return datasets.STL10('./data', split=split, download=download, transform=transform)
     elif dataset == 'cifar10':
-        return datasets.CIFAR10('./data', train=train, download=download)
+        return datasets.CIFAR10('./data', train=train, download=download, transform=transform)
     elif dataset == 'cifar20':
-        return CIFAR20('./data/cifar-20', train=train, download=download)
+        return CIFAR20('./data/cifar-20', train=train, download=download, transform=transform)
