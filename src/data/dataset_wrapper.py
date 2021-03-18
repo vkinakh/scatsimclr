@@ -1,24 +1,12 @@
 from typing import Tuple
 
-import PIL
 import numpy as np
 
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.sampler import SubsetRandomSampler
-import torchvision.transforms as transforms
 
-from .gaussian_blur import GaussianBlur
-from .datasets import DATASET_STATS, SUPPORTED_DATASETS, get_dataset
-
-
-class SimCLRDataTransform:
-    def __init__(self, transform):
-        self.transform = transform
-
-    def __call__(self, sample):
-        xi = self.transform(sample)
-        xj = self.transform(sample)
-        return xi, xj
+from .datasets import SUPPORTED_DATASETS, get_dataset
+from .augmentor import ContrastiveAugmentor
 
 
 class UnsupervisedDatasetWrapper:
@@ -58,7 +46,7 @@ class UnsupervisedDatasetWrapper:
         self._dataset = dataset
 
     def get_data_loaders(self) -> Tuple[DataLoader, DataLoader]:
-        data_augmentations = SimCLRDataTransform(self._get_augmentations())
+        data_augmentations = ContrastiveAugmentor(self._dataset, self._input_size)
 
         dataset = get_dataset(self._dataset, True, data_augmentations, True, True)
         train_loader, valid_loader = self._get_train_validation_data_loaders(dataset)
@@ -83,25 +71,3 @@ class UnsupervisedDatasetWrapper:
         valid_loader = DataLoader(train_dataset, batch_size=self._batch_size,
                                   sampler=valid_sampler, drop_last=True)
         return train_loader, valid_loader
-
-    def _get_augmentations(self) -> transforms.Compose:
-        stats = DATASET_STATS[self._dataset]
-
-        color = transforms.ColorJitter(0.8, 0.8, 0.8, 0.2)
-
-        # here it's assumed that height == width
-        h, w = self._input_size[:2]
-        blur_kernel_size = 2 * int(.05 * h) + 1
-
-        size = (h, w)
-        augmentations = transforms.Compose([
-            transforms.Resize(size, interpolation=PIL.Image.LANCZOS),
-            transforms.RandomResizedCrop(size=size, interpolation=PIL.Image.LANCZOS),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomApply([color], p=0.8),
-            transforms.RandomGrayscale(p=0.2),
-            GaussianBlur(kernel_size=blur_kernel_size),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=stats['mean'], std=stats['std'])
-        ])
-        return augmentations

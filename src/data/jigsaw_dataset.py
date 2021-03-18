@@ -5,9 +5,9 @@ import numpy as np
 
 import torch
 from torch.utils.data import Dataset
-import torchvision.transforms as transforms
 
 from .datasets import SUPPORTED_DATASETS, get_dataset
+from .augmentor import PatchAugmentor
 
 
 def retrive_permutations(classes: int) -> np.ndarray:
@@ -49,10 +49,7 @@ class JigsawDataset(Dataset):
 
         self._transform = transform
         h, w = input_size[:2]
-        self._transform_patch = transforms.Compose([
-            transforms.Resize((h, w)),
-            transforms.ToTensor()
-        ])
+        self._transform_patch = PatchAugmentor(input_size)
 
         self._permutations = retrive_permutations(permutations)
 
