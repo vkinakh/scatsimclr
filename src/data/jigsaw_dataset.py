@@ -1,14 +1,13 @@
-from typing import List, Tuple
+from typing import Tuple
 import math
 
 import numpy as np
 
 import torch
 from torch.utils.data import Dataset
-from torchvision import datasets
 import torchvision.transforms as transforms
 
-from .cifar_20 import CIFAR20
+from .datasets import SUPPORTED_DATASETS, get_dataset
 
 
 def retrive_permutations(classes: int) -> np.ndarray:
@@ -20,27 +19,33 @@ def retrive_permutations(classes: int) -> np.ndarray:
 
 
 class JigsawDataset(Dataset):
-    """Dataset with jigsaw rotation transformation"""
-
-    DATASETS = ['str10', 'cifar10', 'cifar20']
+    """Dataset with jigsaw transformation"""
 
     def __init__(self, dataset: str, input_size: Tuple[int, int, int],
                  transform=None,
                  train: bool = True,
                  permutations: int = 35):
+        """
 
-        if dataset not in self.DATASETS:
-            raise ValueError(f'Unsupported dataset. `dataset` should be in [{", ".join(self.DATASETS)}]')
+        Args:
+            dataset: dataset to use
+
+            input_size: input image size
+
+            transform: transforms to apply
+
+            train: if True, train dataset is loaded
+
+            permutations: number of permutations
+        """
+
+        if dataset not in SUPPORTED_DATASETS:
+            raise ValueError(f'Unsupported dataset. `dataset` should be in [{", ".join(SUPPORTED_DATASETS)}]')
 
         if len(input_size) != 3:
             raise ValueError('Incorrect `input_size`. It should be (H, W, C)')
 
-        if dataset == 'stl10':
-            self._dataset = datasets.STL10('./data', split='train+unlabeled', download=True)
-        elif dataset == 'cifar10':
-            self._dataset = datasets.CIFAR10('./data', train=train, download=True)
-        elif dataset == 'cifar20':
-            self._dataset = CIFAR20('./data/cifar-20', train=train, download=True)
+        self._dataset = get_dataset(dataset, train, True, True)
 
         self._transform = transform
         h, w = input_size[:2]
