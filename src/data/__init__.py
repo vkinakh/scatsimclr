@@ -3,3 +3,4 @@ from src.data.cifar_20 import CIFAR20
 from src.data.dataset_wrapper import UnsupervisedDatasetWrapper, SimCLRDataTransform
 from src.data.jigsaw_dataset import JigsawDataset
 from src.data.rotation_dataset import RotationDataset
+from src.data.augmentor import ContrastiveAugmentor, ValidAugmentor, PatchAugmentor
