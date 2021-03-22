@@ -37,7 +37,6 @@ class ScatSimCLRTrainer:
         self._device = get_device()
         self._writer = SummaryWriter()
 
-        self._device = get_device()
         self._nt_xent_criterion = NTXentLoss(self._device, config['batch_size'], **config['loss'])
 
     def _step(self, model: nn.Module, xis: torch.Tensor, xjs: torch.Tensor) -> torch.Tensor:
