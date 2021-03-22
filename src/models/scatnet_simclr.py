@@ -67,6 +67,15 @@ class ScatSimCLR(nn.Module):
             res_blocks: number of ResBlocks in adaptor network
 
             out_dim: output dimension of the projection space
+
+        Raises:
+            ValueError: if `J` parameter is < 1
+
+            ValueError: if `L` parameter is < 1
+
+            ValueError: if `input_size` is incorrect shape
+
+            ValueError: if `res_blocks` is not supported
         """
 
         super(ScatSimCLR, self).__init__()
@@ -175,8 +184,11 @@ class ScatSimCLR(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-
         scatnet = self._scatnet(x).squeeze(1)
+
+        B, C, FN, H, W = scatnet.size()
+        scatnet = scatnet.view(B, C * FN, H, W)
+
         h = self._adapter_network(scatnet)
         h = h.view(h.size(0), -1)
 
