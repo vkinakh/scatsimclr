@@ -25,7 +25,16 @@ class UnsupervisedDatasetWrapper:
 
             input_size: input size of the image. Should be Tuple (H, W, C), H - height, W - width, C - channels
 
-            dataset: dataset to use. Available datasets are in DATASET
+            dataset: dataset to use. Available datasets are in SUPPORTED_DATASETS
+
+        Raises:
+            ValueError: If `batch_size` is negative
+
+            ValueError: If `valid_size` is not in range (0, 1)
+
+            ValueError: If `dataset` is not in SUPPORTED_DATASETS
+
+            ValueError: If `input_size` is not (H, W, C)
         """
 
         if batch_size <= 0:
