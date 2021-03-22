@@ -11,11 +11,32 @@ from .datasets import SUPPORTED_DATASETS
 
 class BaseDatasetWrapper(ABC):
 
+    """Base dataset wrapper"""
+
     def __init__(self,
                  batch_size: int,
                  valid_size: float,
                  input_size: Tuple[int, int, int],
                  dataset: str):
+        """
+        Args:
+            batch_size: batch size to use in dataloader
+
+            valid_size: percentage of the data, to be used
+
+            input_size: input image size
+
+            dataset: dataset to use
+
+        Raises:
+            ValueError: if `dataset` is not supported
+
+            ValueError: if `input_size` is incorrect
+
+            ValueError: if `batch_size` if negative
+
+            ValueError: if `valid_size` is not in range (0, 1)
+        """
 
         if dataset not in SUPPORTED_DATASETS:
             raise ValueError('Unsupported dataset')
@@ -35,6 +56,11 @@ class BaseDatasetWrapper(ABC):
         self._dataset = self.get_dataset(dataset)
 
     def get_data_loaders(self) -> Tuple[DataLoader, DataLoader]:
+        """
+
+        Returns: train and valid dataloaders for specified dataset
+        """
+
         n = len(self._dataset)
         indices = list(range(n))
         np.random.shuffle(indices)
@@ -45,8 +71,8 @@ class BaseDatasetWrapper(ABC):
         train_sampler = SubsetRandomSampler(train_idx)
         valid_sampler = SubsetRandomSampler(valid_idx)
 
-        train_loader = DataLoader(self._dataset, batch_size=self._batch_size, sampler=train_sampler)
-        valid_loader = DataLoader(self._dataset, batch_size=self._batch_size, sampler=valid_sampler)
+        train_loader = DataLoader(self._dataset, batch_size=self._batch_size, sampler=train_sampler, drop_last=True)
+        valid_loader = DataLoader(self._dataset, batch_size=self._batch_size, sampler=valid_sampler, drop_last=True)
         return train_loader, valid_loader
 
     @abstractmethod
