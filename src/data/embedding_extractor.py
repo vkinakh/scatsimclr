@@ -60,14 +60,19 @@ class EmbeddingExtractor:
         self._transform = ValidAugmentor(self._dataset, input_size)
 
     def get_features(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        """Computes embedding features, that will be used for classification and other downstream tasks
+
+        Returns:
+            Tuple: train features, train labels, test features, test labels
+        """
 
         train_dataset = get_dataset(dataset=self._dataset, train=True,
                                     transform=self._transform, download=True)
         test_dataset = get_dataset(dataset=self._dataset, train=False,
                                    transform=self._transform, download=True)
 
-        train_loader = DataLoader(train_dataset, batch_size=self._batch_size)
-        test_loader = DataLoader(test_dataset, batch_size=self._batch_size)
+        train_loader = DataLoader(train_dataset, batch_size=self._batch_size, drop_last=True)
+        test_loader = DataLoader(test_dataset, batch_size=self._batch_size, drop_last=True)
 
         train_features, train_labels = self._compute_embeddings(train_loader)
         test_features, test_labels = self._compute_embeddings(test_loader)
