@@ -52,7 +52,7 @@ def get_dataset(dataset: str, train: bool,
     """
 
     if dataset not in SUPPORTED_DATASETS:
-        raise ValueError('Unsuported dataset')
+        raise ValueError('Unsupported dataset')
 
     if dataset == 'stl10':
 
