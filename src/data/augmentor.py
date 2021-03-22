@@ -10,6 +10,9 @@ from .gaussian_blur import GaussianBlur
 
 
 class SimCLRDataTransform:
+
+    """Applies augmentations to sample two times, as described in SimCLR paper"""
+
     def __init__(self, transform: transforms.Compose):
         self.transform = transform
 
@@ -84,7 +87,6 @@ class ValidAugmentor:
         size = (h, w)
 
         self._augmentations = transforms.Compose([
-            transforms.ToPILImage(),
             transforms.Resize(size=size),
             transforms.ToTensor(),
             transforms.Normalize(mean=stats['mean'], std=stats['std'])
