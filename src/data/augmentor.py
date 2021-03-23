@@ -24,7 +24,7 @@ class SimCLRDataTransform:
 
 class ContrastiveAugmentor:
 
-    """Applies augmentation for contrastive learning"""
+    """Applies augmentation for contrastive learning, as in SimCLR paper"""
 
     def __init__(self, dataset: str, input_size: Tuple[int, int, int]):
         """
