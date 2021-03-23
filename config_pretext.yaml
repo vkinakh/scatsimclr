@@ -1,0 +1,28 @@
+batch_size: 64
+epochs: 3
+validate_every_n_epochs: 1
+eval_every_n_epochs: 1
+fine_tune_from: None
+log_every_n_steps: 100
+weight_decay: 0
+
+model:
+  out_dim: 128
+  base_model: "scatsimclr8"
+  J: 2
+  L: 8
+
+dataset:
+  dataset: "stl10"
+  input_shape: (96, 96, 3)
+  valid_size: 0.05
+
+loss:
+  temperature: 0.5
+  use_cosine_similarity: True
+
+pretext:
+  jigsaw: True
+  rotation: False
+  num_jigsaw: 35
+  lambda: 0.3
