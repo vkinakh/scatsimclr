@@ -45,10 +45,8 @@ class JigsawDataset(Dataset):
         if len(input_size) != 3:
             raise ValueError('Incorrect `input_size`. It should be (H, W, C)')
 
-        self._dataset = get_dataset(dataset, train, True, True)
-
         self._transform = transform
-        h, w = input_size[:2]
+        self._dataset = get_dataset(dataset, train, download=True, unlabeled=True)
         self._transform_patch = PatchAugmentor(input_size)
 
         self._permutations = retrive_permutations(permutations)
@@ -57,18 +55,14 @@ class JigsawDataset(Dataset):
         img, _ = self._dataset[item]
         patches, order = self._get_patches(img)
 
-        img_aug1 = self._transform(img)
-        img_aug2 = self._transform(img)
+        img_aug1, img_aug2 = self._transform(img)
         return img_aug1, img_aug2, patches, order
 
     def __len__(self) -> int:
         return len(self._dataset)
 
     def _get_patches(self, img: torch.Tensor) -> Tuple[torch.Tensor, int]:
-        if self._transform is not None:
-            img_tr = self._transform(img)
-        else:
-            img_tr = img
+        img_tr = img
 
         s = float(img_tr.size[0]) / 3
         a = s / 2
@@ -79,7 +73,7 @@ class JigsawDataset(Dataset):
             c = [a * i * 2 + a, a * j * 2 + a]
             c = np.array([math.ceil(c[1] - a), math.ceil(c[0] - a), int(c[1] + a), int(c[0] + a)]).astype(int)
             tile = img_tr.crop(c.tolist())
-            tile = self._transform(tile)
+            tile = self._transform_patch(tile)
             tiles[n] = tile
 
         order = np.random.randint(len(self._permutations))
