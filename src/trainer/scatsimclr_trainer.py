@@ -54,7 +54,7 @@ class ScatSimCLRTrainer(BaseTrainer):
         model = self._load_weights(model)
         model.to(self._device)
 
-        # create optimizer and sheduler
+        # create optimizer and scheduler
         optimizer = torch.optim.Adam(model.parameters(), 3e-4, weight_decay=eval(self._config['weight_decay']))
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=len(train_loader), eta_min=0,
                                                                last_epoch=-1)
@@ -113,6 +113,16 @@ class ScatSimCLRTrainer(BaseTrainer):
 
         model_path = checkpoint_folder / 'model_final.pth'
         torch.save(model.state_dict(), model_path)
+
+    def evaluate(self) -> float:
+        # load model
+        model = self._get_embeddings_model(self._config['model']['base_model'])
+        model = self._load_weights(model)
+        model.to(self._device)
+        model.eval()
+
+        score = self._test_classification(model)
+        return score
 
     def _load_weights(self, model: nn.Module) -> nn.Module:
         checkpoints_folder = Path('./runs') / f"{self._config['fine_tune_from']}/checkpoints"

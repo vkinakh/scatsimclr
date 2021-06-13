@@ -43,6 +43,10 @@ class BaseTrainer(ABC):
         pass
 
     @abstractmethod
+    def evaluate(self) -> float:
+        pass
+
+    @abstractmethod
     def _step(self, *args, **kwargs):
         pass
 
