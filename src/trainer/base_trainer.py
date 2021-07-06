@@ -42,9 +42,15 @@ class BaseTrainer(ABC):
     def train(self):
         pass
 
-    @abstractmethod
     def evaluate(self) -> float:
-        pass
+        # load model
+        model = self._get_embeddings_model(self._config['model']['base_model'])
+        model = self._load_weights(model)
+        model.to(self._device)
+        model.eval()
+
+        score = self._test_classification(model)
+        return score
 
     @abstractmethod
     def _step(self, *args, **kwargs):
