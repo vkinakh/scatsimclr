@@ -1,5 +1,6 @@
 from typing import NoReturn, Tuple, Dict
 from pathlib import Path
+import shutil
 
 import numpy as np
 
@@ -10,7 +11,11 @@ import torch.nn.functional as F
 
 from src.data import PretextTaskDatasetWrapper
 from src.trainer import BaseTrainer
-from src.trainer.base_trainer import save_config_file
+
+
+def save_config_file(model_checkpoints_folder: Path) -> NoReturn:
+    model_checkpoints_folder.mkdir(parents=True, exist_ok=True)
+    shutil.copy('./config_pretext.yaml', model_checkpoints_folder / 'config.yaml')
 
 
 class PretextTaskTrainer(BaseTrainer):
@@ -25,7 +30,7 @@ class PretextTaskTrainer(BaseTrainer):
 
         super(PretextTaskTrainer, self).__init__(config)
 
-        h_size = 2048  # size of the h feature space
+        h_size = 512 # 2048  # size of the h feature space
 
         if self._jigsaw:
             num_jigsaw_permutations = config['pretext']['num_jigsaw']
@@ -134,7 +139,7 @@ class PretextTaskTrainer(BaseTrainer):
                 # save the best model
                 if best_valid_loss > loss_contrastive_valid:
                     best_valid_loss = loss_contrastive_valid
-                    torch.save(model.state_dict(), checkpoint_folder / 'model.pth')
+                    torch.save(model.state_dict(), checkpoint_folder / f'model_{epoch_counter}.pth')
                     torch.save({"fc1": self._fc1.state_dict(), "fc2": self._fc2.state_dict(),
                                 "classification_fc": self._classification_fc.state_dict()},
                                checkpoint_folder / f'model_{self._name_postfix}.pth')
@@ -145,7 +150,7 @@ class PretextTaskTrainer(BaseTrainer):
 
                 if acc > best_acc:
                     best_acc = acc
-                    torch.save(model.state_dict(), checkpoint_folder / 'model.pth')
+                    torch.save(model.state_dict(), checkpoint_folder / f'model_{epoch_counter}.pth')
 
                 self._writer.add_scalar('test/classification_accuracy', acc, test_n_iter)
                 test_n_iter += 1
@@ -250,11 +255,13 @@ class PretextTaskTrainer(BaseTrainer):
         return loss_contrastive, self._classification_loss(h_, y_), acc
 
     def _load_weights(self, model: nn.Module) -> nn.Module:
-        checkpoints_folder = Path('./runs') / f"{self._config['fine_tune_from']}/checkpoints"
+        # checkpoints_folder = Path('./runs') / f"{self._config['fine_tune_from']}/checkpoints"
+        checkpoint_file = Path(self._config['fine_tune_from'])
 
-        if checkpoints_folder.exists():
-            state_dict = torch.load(checkpoints_folder / 'model_final.pth')
+        if checkpoint_file.exists():  # checkpoints_folder.exists():
+            state_dict = torch.load(checkpoint_file)  # torch.load(checkpoints_folder / 'model_final.pth')
             model.load_state_dict(state_dict)
+            print(f'Loaded: {checkpoint_file}')
         else:
             print('Pre-trained weights not found. Training from scratch.')
         return model
