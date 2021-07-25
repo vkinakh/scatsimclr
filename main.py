@@ -18,4 +18,4 @@ def run_pretext():
 
 
 if __name__ == '__main__':
-    run_pretext()
+    run_unsupervised()

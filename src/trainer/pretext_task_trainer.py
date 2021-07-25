@@ -30,7 +30,7 @@ class PretextTaskTrainer(BaseTrainer):
 
         super(PretextTaskTrainer, self).__init__(config)
 
-        h_size = 512 # 2048  # size of the h feature space
+        h_size = 2048  # size of the h feature space
 
         if self._jigsaw:
             num_jigsaw_permutations = config['pretext']['num_jigsaw']
@@ -150,7 +150,7 @@ class PretextTaskTrainer(BaseTrainer):
 
                 if acc > best_acc:
                     best_acc = acc
-                    torch.save(model.state_dict(), checkpoint_folder / f'model_{epoch_counter}.pth')
+                    torch.save(model.state_dict(), checkpoint_folder / f'model_best_{epoch_counter}.pth')
 
                 self._writer.add_scalar('test/classification_accuracy', acc, test_n_iter)
                 test_n_iter += 1
@@ -160,6 +160,7 @@ class PretextTaskTrainer(BaseTrainer):
             if epoch_counter >= 10:
                 scheduler.step()
             self._writer.add_scalar('cosine_lr_decay', scheduler.get_lr()[0], global_step=n_iter)
+            torch.save(model.state_dict(), checkpoint_folder / f'model_{epoch_counter}.pth')
 
         # save final model
         torch.save(model.state_dict(), checkpoint_folder / 'model_final.pth')
