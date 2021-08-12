@@ -9,7 +9,7 @@ This repo contains official Pytorch implementation of the paper:
 **ScatSimCLR: self-supervised contrastive learning with pretext task regularization for small-scale datasets** 
 accepted at ICCV 2021 workshop
 [2nd Visual Inductive Priors for Data-Efficient Deep Learning Workshop](https://vipriors.github.io/) </br>
-[Vitaliy Kinakh](INSERT LINK HERE), [Olga Taran](INSERT LINK HERE), [Sviatoslav Voloshynovskiy](INSERT LINK HERE)
+[Vitaliy Kinakh](INSERT LINK HERE), [Olga Taran](http://sip.unige.ch/team/olga-taran/), [Sviatoslav Voloshynovskiy](http://sip.unige.ch/team/prof-sviatoslav-voloshynovskiy/)
 
 [Paper](INSERT LINK HERE) [Presentation](INSERT LINK HERE) [Video](INSERT LINK HERE)
 
@@ -83,6 +83,6 @@ python evaluate.py --config <path to config file>
 |Dataset | Top-1 accuracy| Model        |Image size| J | L  | Download link |
 |--------|---------------|--------------|----------|---|----|---|
 |STL10   | 84.76%        | ScatSimCLR30 |(96, 96)  | 2 | 16 | [Download]()|
-|CIFAR20 | 63.86%        | ScatSimCLR30 |(32, 32)  | 2 | 16 | [Download]() |
+|CIFAR20 | 63.86%        | ScatSimCLR30 |(32, 32)  | 2 | 16 | [Download](https://drive.google.com/drive/folders/1dhDMzNaB5PhXPqarwBw1KDCbs6DtHwOc?usp=sharing) |
  
 ### Citation
