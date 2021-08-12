@@ -70,8 +70,10 @@ class BaseDatasetWrapper(ABC):
         train_sampler = SubsetRandomSampler(train_idx)
         valid_sampler = SubsetRandomSampler(valid_idx)
 
-        train_loader = DataLoader(self._dataset, batch_size=self._batch_size, sampler=train_sampler, drop_last=True)
-        valid_loader = DataLoader(self._dataset, batch_size=self._batch_size, sampler=valid_sampler, drop_last=True)
+        train_loader = DataLoader(self._dataset, batch_size=self._batch_size, sampler=train_sampler, num_workers=4,
+                                  drop_last=True)
+        valid_loader = DataLoader(self._dataset, batch_size=self._batch_size, sampler=valid_sampler, num_workers=4,
+                                  drop_last=True)
         return train_loader, valid_loader
 
     @abstractmethod
