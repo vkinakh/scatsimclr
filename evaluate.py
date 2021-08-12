@@ -15,9 +15,8 @@ def run_evaluation(config_path):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config',
+    parser.add_argument('--config', '-c',
                         type=str,
-                        default='config.yaml',
                         help='configuration file')
     args = parser.parse_args()
     run_evaluation(args.config)

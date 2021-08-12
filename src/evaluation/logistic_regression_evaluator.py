@@ -11,7 +11,20 @@ from src.models import LogisticRegression
 
 class LogisticRegressionEvaluator:
 
+    """Logistic regression evaluator. Trains one-layer linear classifier, to classify embeddings"""
+
     def __init__(self, n_features: int, n_classes: int, device: str, batch_size: int):
+        """
+        Args:
+            n_features: number of input features
+
+            n_classes: number of classes
+
+            device: device
+
+            batch_size: batch size to use when training
+        """
+
         self._model = LogisticRegression(n_features, n_classes).to(device)
         self._scaler = StandardScaler()
         self._device = device
@@ -20,6 +33,23 @@ class LogisticRegressionEvaluator:
     def run_evaluation(self, train_data: np.ndarray, train_labels: np.ndarray,
                        test_data: np.ndarray, test_labels: np.ndarray,
                        epochs: int) -> float:
+        """Runs evaluation
+
+        Args:
+            train_data: training vectors
+
+            train_labels: training labels
+
+            test_data: test vectors
+
+            test_labels: test labels
+
+            epochs: number of training epochs
+
+        Returns:
+            float: test accuracy
+        """
+
         # standard dataset, create dataloaders
         train_data, test_data = self._standard_dataset(train_data, test_data)
         train = TensorDataset(torch.from_numpy(train_data),

@@ -114,21 +114,11 @@ class ScatSimCLRTrainer(BaseTrainer):
         model_path = checkpoint_folder / 'model_final.pth'
         torch.save(model.state_dict(), model_path)
 
-    def evaluate(self) -> float:
-        # load model
-        model = self._get_embeddings_model(self._config['model']['base_model'])
-        model = self._load_weights(model)
-        model.to(self._device)
-        model.eval()
-
-        score = self._test_classification(model)
-        return score
-
     def _load_weights(self, model: nn.Module) -> nn.Module:
-        checkpoints_folder = Path('./runs') / f"{self._config['fine_tune_from']}/checkpoints"
+        checkpoints_file = Path(self._config['fine_tune_from'])
 
-        if checkpoints_folder.exists():
-            state_dict = torch.load(checkpoints_folder / 'model_final.pth')
+        if checkpoints_file.exists():
+            state_dict = torch.load(checkpoints_file)
             model.load_state_dict(state_dict)
         else:
             print('Pre-trained weights not found. Training from scratch.')

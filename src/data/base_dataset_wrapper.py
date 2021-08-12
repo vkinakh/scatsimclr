@@ -57,7 +57,6 @@ class BaseDatasetWrapper(ABC):
 
     def get_data_loaders(self) -> Tuple[DataLoader, DataLoader]:
         """
-
         Returns: train and valid dataloaders for specified dataset
         """
 

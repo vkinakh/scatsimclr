@@ -260,8 +260,8 @@ instance/
 .scrapy
 
 # Sphinx documentation
-docs/_build/
-doc/_build/
+#docs/_build/
+# doc/_build/
 
 # PyBuilder
 target/

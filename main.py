@@ -1,21 +1,34 @@
+import argparse
 import yaml
 
 from src.trainer import ScatSimCLRTrainer, PretextTaskTrainer
 
 
-def run_unsupervised():
-    config = yaml.load(open('./config.yaml', 'r'), Loader=yaml.FullLoader)
+def main(args):
 
-    trainer = ScatSimCLRTrainer(config)
-    trainer.train()
+    mode = args.mode
 
+    if mode not in ['unsupervised', 'pretext']:
+        raise ValueError('Unsupported mode')
 
-def run_pretext():
-    config = yaml.load(open('./config_pretext.yaml', 'r'), Loader=yaml.FullLoader)
+    config_path = args.config
+    config = yaml.load(open(config_path, 'r'), Loader=yaml.FullLoader)
 
-    trainer = PretextTaskTrainer(config)
+    if mode == 'unsupervised':
+        trainer = ScatSimCLRTrainer(config)
+    elif mode == 'pretext':
+        trainer = PretextTaskTrainer(config)
     trainer.train()
 
 
 if __name__ == '__main__':
-    run_pretext()
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--mode', '-m',
+                        help='Training mode. `unsupervised` - run training only with contrastive loss, '
+                             '`pretext` - run training with contrastive loss and pretext task',
+                        choices=['unsupervised', 'pretext'])
+    parser.add_argument('--config', '-c',
+                        help='Path to config file')
+    args = parser.parse_args()
+    main(args)
