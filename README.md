@@ -82,7 +82,7 @@ python evaluate.py --config <path to config file>
 ### Results
 |Dataset | Top-1 accuracy| Model        |Image size| J | L  | Download link |
 |--------|---------------|--------------|----------|---|----|---|
-|STL10   | 84.76%        | ScatSimCLR30 |(96, 96)  | 2 | 16 | [Download]()|
+|STL10   | 84.76%        | ScatSimCLR30 |(96, 96)  | 2 | 16 | [Download](https://drive.google.com/drive/folders/1W6LaQsUo3DxJVR6dsmcq4uGioik3BcDf?usp=sharing)|
 |CIFAR20 | 63.86%        | ScatSimCLR30 |(32, 32)  | 2 | 16 | [Download](https://drive.google.com/drive/folders/1dhDMzNaB5PhXPqarwBw1KDCbs6DtHwOc?usp=sharing) |
  
 ### Citation

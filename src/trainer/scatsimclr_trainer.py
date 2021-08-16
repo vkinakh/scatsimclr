@@ -103,7 +103,7 @@ class ScatSimCLRTrainer(BaseTrainer):
                     best_classification_acc = cls_accuracy
                     model_path = checkpoint_folder / f'model_{epoch_counter}.pth'
                     torch.save(model.state_dict(), model_path)
-                    self._writer.add_scalar('classification_accuracy', cls_accuracy, global_step=test_n_iter)
+                self._writer.add_scalar('classification_accuracy', cls_accuracy, global_step=test_n_iter)
                 test_n_iter += 1
 
             # run scheduler
