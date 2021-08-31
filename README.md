@@ -9,9 +9,9 @@ This repo contains official Pytorch implementation of the paper:
 **ScatSimCLR: self-supervised contrastive learning with pretext task regularization for small-scale datasets** 
 accepted at ICCV 2021 workshop
 [2nd Visual Inductive Priors for Data-Efficient Deep Learning Workshop](https://vipriors.github.io/) </br>
-[Vitaliy Kinakh](INSERT LINK HERE), [Olga Taran](http://sip.unige.ch/team/olga-taran/), [Sviatoslav Voloshynovskiy](http://sip.unige.ch/team/prof-sviatoslav-voloshynovskiy/)
+[Vitaliy Kinakh](https://vkinakh.github.io/), [Olga Taran](http://sip.unige.ch/team/olga-taran/), [Sviatoslav Voloshynovskiy](http://sip.unige.ch/team/prof-sviatoslav-voloshynovskiy/)
 
-[Paper](INSERT LINK HERE) [Presentation](INSERT LINK HERE) [Video](INSERT LINK HERE)
+[Paper](https://openreview.net/forum?id=IQ87KPOWyg1) <!--[Presentation](INSERT LINK HERE) [Video](INSERT LINK HERE)-->
 
 <p align="center"> <img src="docs/images/stl-10_performance.png">
 <img src="docs/images/cifar100-20_performance.png">
@@ -82,7 +82,18 @@ python evaluate.py --config <path to config file>
 ### Results
 |Dataset | Top-1 accuracy| Model        |Image size| J | L  | Download link |
 |--------|---------------|--------------|----------|---|----|---|
-|STL10   | 84.76%        | ScatSimCLR30 |(96, 96)  | 2 | 16 | [Download](https://drive.google.com/drive/folders/1W6LaQsUo3DxJVR6dsmcq4uGioik3BcDf?usp=sharing)|
+|STL10   | 85.11%        | ScatSimCLR30 |(96, 96)  | 2 | 16 | [Download](https://drive.google.com/drive/folders/1W6LaQsUo3DxJVR6dsmcq4uGioik3BcDf?usp=sharing)|
 |CIFAR20 | 63.86%        | ScatSimCLR30 |(32, 32)  | 2 | 16 | [Download](https://drive.google.com/drive/folders/1dhDMzNaB5PhXPqarwBw1KDCbs6DtHwOc?usp=sharing) |
  
 ### Citation
+
+```commandline
+@inproceedings{
+    kinakh2021scatsimclr,
+    title={ScatSim{CLR}: self-supervised contrastive learning with pretext task regularization for small-scale datasets},
+    author={Vitaliy Kinakh and Slava Voloshynovskiy and Olga Taran},
+    booktitle={2nd Visual Inductive Priors for Data-Efficient Deep Learning Workshop},
+    year={2021},
+    url={https://openreview.net/forum?id=IQ87KPOWyg1}
+}
+```
