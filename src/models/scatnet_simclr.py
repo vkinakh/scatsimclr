@@ -45,13 +45,14 @@ class ResBlock(nn.Module):
 
 class ScatSimCLR(nn.Module):
 
-    N_RES_BLOCKS = [8, 12, 16, 30]
+    N_RES_BLOCKS = [8, 12, 16, 30, 45]
 
     INPLANES = {
         8: 32,
         12: 256,
         16: 256,
-        30: 256
+        30: 256,
+        45: 256
     }
 
     def __init__(self, J: int, L: int, input_size: Tuple[int, int, int], res_blocks: int, out_dim: int):
@@ -163,6 +164,15 @@ class ScatSimCLR(nn.Module):
             adapter_layers.extend([
                 # ResBlocks
                 self._make_layer(ResBlock, 128, 30)
+            ])
+
+        elif self._res_blocks == 45:
+
+            adapter_layers.extend([
+                # ResBlocks
+                self._make_layer(ResBlock, 128, 15),
+                self._make_layer(ResBlock, 64, 15),
+                self._make_layer(ResBlock, 128, 15)
             ])
 
         adapter_layers.append(nn.AdaptiveAvgPool2d(self._pool_size))

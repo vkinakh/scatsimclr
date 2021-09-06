@@ -1,6 +1,6 @@
 ![Python 3.8](https://img.shields.io/badge/python-3.8-green.svg) 
-
-<!-- Add sota results here -->
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/sota/unsupervised-image-classification-on-cifar-20)](https://paperswithcode.com/sota/unsupervised-image-classification-on-cifar-20)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/sota/unsupervised-image-classification-on-stl-10)](https://paperswithcode.com/sota/unsupervised-image-classification-on-stl-10)
 
 # ScatSimCLR: self-supervised contrastive learning with pretext task regularization for small-scale datasets
 
@@ -11,7 +11,9 @@ accepted at ICCV 2021 workshop
 [2nd Visual Inductive Priors for Data-Efficient Deep Learning Workshop](https://vipriors.github.io/) </br>
 [Vitaliy Kinakh](https://vkinakh.github.io/), [Olga Taran](http://sip.unige.ch/team/olga-taran/), [Sviatoslav Voloshynovskiy](http://sip.unige.ch/team/prof-sviatoslav-voloshynovskiy/)
 
-[Paper](https://openreview.net/forum?id=IQ87KPOWyg1) <!--[Presentation](INSERT LINK HERE) [Video](INSERT LINK HERE)-->
+[Paper](https://arxiv.org/abs/2108.13939) <!--[Presentation](INSERT LINK HERE) [Video](INSERT LINK HERE)-->
+
+- 🏆 __SOTA__ on CIFAR20 Unsupervised Image Classification. Check out [Papers With Code](https://paperswithcode.com/paper/scatsimclr-self-supervised-contrastive-1)
 
 <p align="center"> <img src="docs/images/stl-10_performance.png">
 <img src="docs/images/cifar100-20_performance.png">

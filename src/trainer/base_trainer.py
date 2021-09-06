@@ -29,7 +29,7 @@ class BaseTrainer(ABC):
     """Abstract base trainer class"""
 
     EMBEDDINGS_MODELS = ['resnet18', 'resnet50',
-                         'scatsimclr8', 'scatsimclr12', 'scatsimclr16', 'scatsimclr30']
+                         'scatsimclr8', 'scatsimclr12', 'scatsimclr16', 'scatsimclr30', 'scatsimclr45']
 
     def __init__(self, config: Dict):
         self._config = config
