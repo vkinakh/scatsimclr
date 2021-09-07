@@ -1,6 +1,6 @@
 ![Python 3.8](https://img.shields.io/badge/python-3.8-green.svg) 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/scatsimclr-self-supervised-contrastive-1/unsupervised-image-classification-on-cifar-20)](https://paperswithcode.com/sota/unsupervised-image-classification-on-cifar-20?p=scatsimclr-self-supervised-contrastive-1)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/scatsimclr-self-supervised-contrastive-1/unsupervised-image-classification-on-stl-10)](https://paperswithcode.com/sota/unsupervised-image-classification-on-stl-10?p=scatsimclr-self-supervised-contrastive-1)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/scatsimclr-self-supervised-contrastive/unsupervised-image-classification-on-cifar-20)](https://paperswithcode.com/sota/unsupervised-image-classification-on-cifar-20?p=scatsimclr-self-supervised-contrastive)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/scatsimclr-self-supervised-contrastive/unsupervised-image-classification-on-stl-10)](https://paperswithcode.com/sota/unsupervised-image-classification-on-stl-10?p=scatsimclr-self-supervised-contrastive)
 
 # ScatSimCLR: self-supervised contrastive learning with pretext task regularization for small-scale datasets
 
